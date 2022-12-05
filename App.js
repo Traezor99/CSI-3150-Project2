@@ -5,6 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
+import TestScreen from "./screens/TestScreen";
 import store from "./store";
 
 export default function App() {
@@ -18,6 +19,10 @@ export default function App() {
                         keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
                         style={{ flex: 1 }}
                     >
+                        {
+                            //
+                            //<TestScreen />
+                        }
                         <HomeScreen />
                         {/*<Stack.Navigator>
                             <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />

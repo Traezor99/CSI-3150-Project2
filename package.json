@@ -16,15 +16,16 @@
     "@reduxjs/toolkit": "^1.9.1",
     "expo": "~47.0.8",
     "expo-status-bar": "~1.4.2",
+    "expr-eval": "^2.0.2",
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-elements": "^3.4.2",
+    "react-native-pager-view": "6.0.1",
     "react-native-screens": "~3.18.0",
     "react-native-tab-view": "^3.3.2",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
-    "tailwind-react-native-classnames": "^1.5.1",
-    "react-native-pager-view": "6.0.1"
+    "tailwind-react-native-classnames": "^1.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
