@@ -14,11 +14,14 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === "android" ? 50 : 0,
     },
     HomeButtons: {
-        flex: 1,
-        fontSize: 24,
-        color: "gray",
         borderWidth: 1,
-        margin: 2,
+        paddingHorizontal: 8,
+        paddingVertical: 6,
+        borderRadius: 4,
+        alignSelf: "flex-start",
+        marginHorizontal: "1%",
+        marginBottom: 6,
+        minWidth: "23%",
     },
     ButtonText: {
         color: "red",
@@ -26,7 +29,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textAlignVertical: "center",
         padding: 0,
-        margin: 0,
     },
     TextInput: {
         width: "100%",
@@ -46,10 +48,15 @@ const HomeScreen = () => {
     const [calc, setDisplay] = React.useState("0"); //Also store the previous result
 
     const calculate = (str) => {
-        const Parser = require("expr-eval").Parser;
-        const parser = new Parser();
-        let result = parser.parse(str).evaluate();
-        setDisplay(`${parseFloat(result.toFixed(7))}`);
+        try {
+            const Parser = require("expr-eval").Parser;
+            const parser = new Parser();
+            let result = parser.parse(str).evaluate();
+            setDisplay(`${parseFloat(result.toFixed(7))}`);
+        } catch (ex) {
+            console.log(ex);
+            //TODO: display something to the user that says the format is bad
+        }
     };
 
     const backSpace = () => {
@@ -57,12 +64,23 @@ const HomeScreen = () => {
         else setDisplay("0");
     };
 
+    const updateDisplay = (value) => {
+        if (calc == "0") setDisplay(value);
+        else setDisplay(calc + value);
+    };
+
     return (
         <SafeAreaView style={[tw`bg-white h-full`, styles.AndroidSafeArea]}>
-            <TextInput style={styles.TextInput} onChangeText={setDisplay} value={calc} editable={true} />
-            <View style={{ flexDirection: "row", flex: 1 }}>
+            <TextInput style={styles.TextInput} onChangeText={setDisplay} value={calc} editable={false} />
+            <View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
                 <TouchableOpacity onPress={() => setDisplay("0")} style={styles.HomeButtons} disabled={false}>
                     <Text style={styles.ButtonText}>C</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => updateDisplay("(")} style={styles.HomeButtons} disabled={false}>
+                    <Text style={styles.ButtonText}>{"("}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => updateDisplay(")")} style={styles.HomeButtons} disabled={false}>
+                    <Text style={styles.ButtonText}>{")"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={backSpace} style={styles.HomeButtons} disabled={false}>
                     <Text style={styles.ButtonText}>X</Text>
@@ -71,10 +89,18 @@ const HomeScreen = () => {
                     <Text style={styles.ButtonText}>=</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ height: "84%" }}>
+            <View style={{ height: "70%" }}>
                 <Tab.Navigator>
-                    <Tab.Screen name="MainCalc" component={MainCalc} />
-                    <Tab.Screen name="ScientificCalc" component={ScientificCalc} />
+                    <Tab.Screen
+                        name="Standard"
+                        children={() => (
+                            <MainCalc
+                                values={["1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "-/+", "0", ".", "/"]}
+                                func={updateDisplay}
+                            />
+                        )}
+                    />
+                    <Tab.Screen name="Scientific" component={ScientificCalc} />
                 </Tab.Navigator>
             </View>
         </SafeAreaView>

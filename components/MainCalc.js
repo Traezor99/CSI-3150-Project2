@@ -1,25 +1,45 @@
-import { View, SafeAreaView, Text, FlatList, TouchableOpacity, Image } from "react-native";
-import React from "react";
-import tw from "tailwind-react-native-classnames";
-import { Icon } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { selectOrigin } from "../slices/navSlice";
-import ScientificCalc from "./MainCalc";
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from "react-native";
+import React, { useState } from "react";
 
-const MainCalc = () => {
-    const navigation = useNavigation();
-    const origin = useSelector(selectOrigin);
+const styles = StyleSheet.create({
+    row: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    button: {
+        paddingHorizontal: 8,
+        paddingVertical: 6,
+        borderRadius: 4,
+        backgroundColor: "oldlace",
+        alignSelf: "flex-start",
+        marginHorizontal: "1%",
+        marginBottom: 6,
+        minWidth: "23%",
+    },
+    buttonLabel: {
+        fontSize: 24,
+        fontWeight: "500",
+        color: "coral",
+        textAlign: "center",
+    },
+    main: {
+        backgroundColor: "white",
+        height: "100%",
+        padding: 10,
+        flex: 1,
+    },
+});
 
+const MainCalc = (props) => {
     return (
-        <View style={tw`p-1`}>
-            <Text>Hello there</Text>
-            {/*<TouchableOpacity onPress={() => navigation.navigate(ScientificCalc)} style={tw`pl-2 pb-8 pt-4 bg-gray-200 m-2 w-40`} disabled={false}>
-                <View style={tw`${!origin && "opacity-20"}`}>
-                    <Text style={tw`mt-2 text-lg font-semibold`}>{"Main view"}</Text>
-                    <Icon style={tw`p-2 bg-black rounded-full w-10 mt-4`} name="arrowright" color="white" type="antdesign" />
-                </View>
-    </TouchableOpacity>*/}
+        <View style={styles.main}>
+            <View style={styles.row}>
+                {props.values.map((value) => (
+                    <TouchableOpacity key={value} onPress={() => props.func(value)} style={styles.button}>
+                        <Text style={styles.buttonLabel}>{value}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
         </View>
     );
 };
