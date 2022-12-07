@@ -1,25 +1,67 @@
-import { View, SafeAreaView, Text, FlatList, TouchableOpacity, Image } from "react-native";
-import React from "react";
-import tw from "tailwind-react-native-classnames";
-import { Icon } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { selectOrigin } from "../slices/navSlice";
-import MainCalc from "./MainCalc";
+import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import CalcButton from "./CalcButton";
+import EqualButton from "./CalcButton";
 
-const ScientificCalc = () => {
-    const navigation = useNavigation();
-    const origin = useSelector(selectOrigin);
+const styles = StyleSheet.create({
+    row: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+    button: {
+        paddingHorizontal: 8,
+        paddingVertical: 6,
+        borderRadius: 4,
+        backgroundColor: "oldlace",
+        alignSelf: "flex-start",
+        marginHorizontal: "1%",
+        marginBottom: 6,
+        minWidth: "23%",
+    },
+    buttonLabel: {
+        fontSize: 24,
+        fontWeight: "500",
+        color: "coral",
+        textAlign: "center",
+    },
+    main: {
+        backgroundColor: "white",
+        height: "100%",
+        padding: 10,
+        flex: 1,
+    },
+});
 
+//Add clear, ^, and maybe something else to this
+const ScientificCalc = (props) => {
     return (
-        <View style={tw`p-1`}>
-            <Text>Science!</Text>
-            {/*<TouchableOpacity onPress={() => navigation.navigate(MainCalc)} style={tw`pl-2 pb-8 pt-4 bg-gray-200 m-2 w-40`} disabled={false}>
-                    <View style={tw`${!origin && "opacity-20"}`}>
-                        <Text style={tw`mt-2 text-lg font-semibold`}>{"S view"}</Text>
-                        <Icon style={tw`p-2 bg-black rounded-full w-10 mt-4`} name="arrowright" color="white" type="antdesign" />
-                    </View>
-    </TouchableOpacity>*/}
+        <View style={styles.main}>
+            <View style={styles.row}>
+                <CalcButton key={"("} value={"("} text={"("} press={props.setDisplay} />
+                <CalcButton key={")"} value={")"} text={")"} press={props.setDisplay} />
+                <CalcButton key={"!"} value={"!"} text={"!"} press={props.setDisplay} />
+                <CalcButton key={"abs"} value={"abs("} text={"|x|"} press={props.setDisplay} />
+
+                <CalcButton key={"sin"} value={"sin("} text={"sin"} press={props.setDisplay} />
+                <CalcButton key={"cos"} value={"cos("} text={"cos"} press={props.setDisplay} />
+                <CalcButton key={"tan"} value={"tan("} text={"tan"} press={props.setDisplay} />
+                <CalcButton key={"rad"} value={"rad("} text={"rad"} press={props.setDisplay} />
+
+                <CalcButton key={"asin"} value={"asin("} text={"asin"} press={props.setDisplay} />
+                <CalcButton key={"acos"} value={"acos("} text={"acos"} press={props.setDisplay} />
+                <CalcButton key={"atan"} value={"atan("} text={"atan"} press={props.setDisplay} />
+                <CalcButton key={"π"} value={"π"} text={"π"} press={props.setDisplay} />
+
+                <CalcButton key={"ln"} value={"ln("} text={"ln"} press={props.setDisplay} />
+                <CalcButton key={"log"} value={"log("} text={"log"} press={props.setDisplay} />
+                <CalcButton key={"sqrt"} value={"sqrt("} text={"√"} press={props.setDisplay} />
+                <CalcButton key={"e"} value={"e"} text={"e"} press={props.setDisplay} />
+
+                <CalcButton key={"sign"} value={"-"} text={"-"} press={props.setDisplay} />
+                <CalcButton key={"0"} value={"0"} text={"0"} press={props.setDisplay} />
+                <CalcButton key={"."} value={"."} text={"."} press={props.setDisplay} />
+                <EqualButton key={"="} value={"="} text={"="} press={props.calculate} />
+            </View>
         </View>
     );
 };

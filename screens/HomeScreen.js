@@ -45,12 +45,18 @@ const styles = StyleSheet.create({
 
 const HomeScreen = () => {
     const Tab = createMaterialTopTabNavigator();
-    const [calc, setDisplay] = React.useState("0"); //Also store the previous result
+    const [display, setDisplay] = React.useState("0"); //Also store the previous result
 
     const calculate = (str) => {
         try {
+            //let newStr = str.replace("π", "PI");
             const Parser = require("expr-eval").Parser;
             const parser = new Parser();
+            parser.consts.π = Math.PI;
+            parser.consts.e = Math.E;
+            parser.functions.rad = function (x) {
+                return x * (Math.PI / 180);
+            };
             let result = parser.parse(str).evaluate();
             setDisplay(`${parseFloat(result.toFixed(7))}`);
         } catch (ex) {
@@ -60,33 +66,24 @@ const HomeScreen = () => {
     };
 
     const backSpace = () => {
-        if (calc.length > 1) setDisplay(calc.substring(0, calc.length - 1));
+        if (display.length > 1) setDisplay(display.substring(0, display.length - 1));
         else setDisplay("0");
     };
 
     const updateDisplay = (value) => {
-        if (calc == "0") setDisplay(value);
-        else setDisplay(calc + value);
+        if (display == "0") setDisplay(value);
+        else setDisplay(display + value);
     };
 
     return (
         <SafeAreaView style={[tw`bg-white h-full`, styles.AndroidSafeArea]}>
-            <TextInput style={styles.TextInput} onChangeText={setDisplay} value={calc} editable={false} />
+            <TextInput style={styles.TextInput} onChangeText={setDisplay} value={display} editable={false} />
             <View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
                 <TouchableOpacity onPress={() => setDisplay("0")} style={styles.HomeButtons} disabled={false}>
                     <Text style={styles.ButtonText}>C</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => updateDisplay("(")} style={styles.HomeButtons} disabled={false}>
-                    <Text style={styles.ButtonText}>{"("}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => updateDisplay(")")} style={styles.HomeButtons} disabled={false}>
-                    <Text style={styles.ButtonText}>{")"}</Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={backSpace} style={styles.HomeButtons} disabled={false}>
                     <Text style={styles.ButtonText}>X</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => calculate(calc)} style={styles.HomeButtons} disabled={false}>
-                    <Text style={styles.ButtonText}>=</Text>
                 </TouchableOpacity>
             </View>
             <View style={{ height: "70%" }}>
@@ -95,12 +92,22 @@ const HomeScreen = () => {
                         name="Standard"
                         children={() => (
                             <MainCalc
-                                values={["1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "-/+", "0", ".", "/"]}
-                                func={updateDisplay}
+                                //values={["1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "-/+", "0", ".", "/"]}
+                                setDisplay={updateDisplay}
+                                calculate={() => calculate(display)}
                             />
                         )}
                     />
-                    <Tab.Screen name="Scientific" component={ScientificCalc} />
+                    <Tab.Screen
+                        name="Scientific"
+                        children={() => (
+                            <ScientificCalc
+                                //values={["1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "-/+", "0", ".", "/"]}
+                                setDisplay={updateDisplay}
+                                calculate={() => calculate(display)}
+                            />
+                        )}
+                    />
                 </Tab.Navigator>
             </View>
         </SafeAreaView>
