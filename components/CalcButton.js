@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
     button: {
         paddingHorizontal: 8,
         paddingVertical: 6,
-        borderRadius: 4,
-        backgroundColor: "oldlace",
+        borderRadius: 15,
+        backgroundColor: "#F6FBFF",
         alignSelf: "flex-start",
         marginHorizontal: "1%",
         marginBottom: 6,
@@ -15,14 +15,18 @@ const styles = StyleSheet.create({
     buttonLabel: {
         fontSize: 24,
         fontWeight: "500",
-        color: "coral",
+        color: "#A77A53",
         textAlign: "center",
+        width: "100%",
+        paddingTop: "20%",
+        paddingBottom: "20%",
+        textAlignVertical: "center",
     },
 });
 
 const CalcButton = (props) => {
     return (
-        <TouchableOpacity key={props.key} onPress={() => props.press(props.value)} style={styles.button}>
+        <TouchableOpacity key={props.buttonKey} onPress={() => props.press(props.value)} style={styles.button}>
             <Text style={styles.buttonLabel}>{props.text}</Text>
         </TouchableOpacity>
     );

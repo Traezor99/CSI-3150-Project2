@@ -11,6 +11,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 const styles = StyleSheet.create({
     AndroidSafeArea: {
         backgroundColor: "white",
+        height: "100%",
         paddingTop: Platform.OS === "android" ? 50 : 0,
     },
     HomeButtons: {
@@ -71,42 +72,25 @@ const HomeScreen = () => {
     };
 
     const updateDisplay = (value) => {
-        if (display == "0") setDisplay(value);
+        if (value == "clear") setDisplay("0");
+        else if (display == "0") setDisplay(value);
         else setDisplay(display + value);
     };
 
     return (
-        <SafeAreaView style={[tw`bg-white h-full`, styles.AndroidSafeArea]}>
+        <SafeAreaView style={styles.AndroidSafeArea}>
             <TextInput style={styles.TextInput} onChangeText={setDisplay} value={display} editable={false} />
             <View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
-                <TouchableOpacity onPress={() => setDisplay("0")} style={styles.HomeButtons} disabled={false}>
-                    <Text style={styles.ButtonText}>C</Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={backSpace} style={styles.HomeButtons} disabled={false}>
                     <Text style={styles.ButtonText}>X</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ height: "70%" }}>
+            <View style={{ height: "65%" }}>
                 <Tab.Navigator>
-                    <Tab.Screen
-                        name="Standard"
-                        children={() => (
-                            <MainCalc
-                                //values={["1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "-/+", "0", ".", "/"]}
-                                setDisplay={updateDisplay}
-                                calculate={() => calculate(display)}
-                            />
-                        )}
-                    />
+                    <Tab.Screen name="Standard" children={() => <MainCalc setDisplay={updateDisplay} calculate={() => calculate(display)} />} />
                     <Tab.Screen
                         name="Scientific"
-                        children={() => (
-                            <ScientificCalc
-                                //values={["1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "-/+", "0", ".", "/"]}
-                                setDisplay={updateDisplay}
-                                calculate={() => calculate(display)}
-                            />
-                        )}
+                        children={() => <ScientificCalc setDisplay={updateDisplay} calculate={() => calculate(display)} />}
                     />
                 </Tab.Navigator>
             </View>

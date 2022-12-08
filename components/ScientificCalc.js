@@ -37,30 +37,30 @@ const ScientificCalc = (props) => {
     return (
         <View style={styles.main}>
             <View style={styles.row}>
-                <CalcButton key={"("} value={"("} text={"("} press={props.setDisplay} />
-                <CalcButton key={")"} value={")"} text={")"} press={props.setDisplay} />
-                <CalcButton key={"!"} value={"!"} text={"!"} press={props.setDisplay} />
-                <CalcButton key={"abs"} value={"abs("} text={"|x|"} press={props.setDisplay} />
+                <CalcButton buttonKey={"clear"} value={"clear"} text={"C"} press={props.setDisplay} />
+                <CalcButton buttonKey={"("} value={"("} text={"("} press={props.setDisplay} />
+                <CalcButton buttonKey={")"} value={")"} text={")"} press={props.setDisplay} />
+                <CalcButton buttonKey={"abs"} value={"abs("} text={"|x|"} press={props.setDisplay} />
 
-                <CalcButton key={"sin"} value={"sin("} text={"sin"} press={props.setDisplay} />
-                <CalcButton key={"cos"} value={"cos("} text={"cos"} press={props.setDisplay} />
-                <CalcButton key={"tan"} value={"tan("} text={"tan"} press={props.setDisplay} />
-                <CalcButton key={"rad"} value={"rad("} text={"rad"} press={props.setDisplay} />
+                <CalcButton buttonKey={"sin"} value={"sin("} text={"sin"} press={props.setDisplay} />
+                <CalcButton buttonKey={"cos"} value={"cos("} text={"cos"} press={props.setDisplay} />
+                <CalcButton buttonKey={"tan"} value={"tan("} text={"tan"} press={props.setDisplay} />
+                <CalcButton buttonKey={"rad"} value={"rad("} text={"rad"} press={props.setDisplay} />
 
-                <CalcButton key={"asin"} value={"asin("} text={"asin"} press={props.setDisplay} />
-                <CalcButton key={"acos"} value={"acos("} text={"acos"} press={props.setDisplay} />
-                <CalcButton key={"atan"} value={"atan("} text={"atan"} press={props.setDisplay} />
-                <CalcButton key={"π"} value={"π"} text={"π"} press={props.setDisplay} />
+                <CalcButton buttonKey={"asin"} value={"asin("} text={"asin"} press={props.setDisplay} />
+                <CalcButton buttonKey={"acos"} value={"acos("} text={"acos"} press={props.setDisplay} />
+                <CalcButton buttonKey={"atan"} value={"atan("} text={"atan"} press={props.setDisplay} />
+                <CalcButton buttonKey={"!"} value={"!"} text={"!"} press={props.setDisplay} />
 
-                <CalcButton key={"ln"} value={"ln("} text={"ln"} press={props.setDisplay} />
-                <CalcButton key={"log"} value={"log("} text={"log"} press={props.setDisplay} />
-                <CalcButton key={"sqrt"} value={"sqrt("} text={"√"} press={props.setDisplay} />
-                <CalcButton key={"e"} value={"e"} text={"e"} press={props.setDisplay} />
+                <CalcButton buttonKey={"ln"} value={"ln("} text={"ln"} press={props.setDisplay} />
+                <CalcButton buttonKey={"log"} value={"log10("} text={"log"} press={props.setDisplay} />
+                <CalcButton buttonKey={"sqrt"} value={"sqrt("} text={"√"} press={props.setDisplay} />
+                <CalcButton buttonKey={"^"} value={"^"} text={"^"} press={props.setDisplay} />
 
-                <CalcButton key={"sign"} value={"-"} text={"-"} press={props.setDisplay} />
-                <CalcButton key={"0"} value={"0"} text={"0"} press={props.setDisplay} />
-                <CalcButton key={"."} value={"."} text={"."} press={props.setDisplay} />
-                <EqualButton key={"="} value={"="} text={"="} press={props.calculate} />
+                <CalcButton buttonKey={"sign"} value={"-"} text={"-"} press={props.setDisplay} />
+                <CalcButton buttonKey={"π"} value={"π"} text={"π"} press={props.setDisplay} />
+                <CalcButton buttonKey={"e"} value={"e"} text={"e"} press={props.setDisplay} />
+                <EqualButton buttonKey={"="} value={"="} text={"="} press={props.calculate} />
             </View>
         </View>
     );
