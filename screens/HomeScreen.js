@@ -1,8 +1,5 @@
-import { StyleSheet, TouchableOpacity, Button, Text, View, SafeAreaView, Alert, TextInput } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image, SafeAreaView, Alert, TextInput } from "react-native";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { createStackNavigator } from "@react-navigation/stack";
-import tw from "tailwind-react-native-classnames";
 import MainCalc from "../components/MainCalc";
 import ScientificCalc from "../components/ScientificCalc";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -15,25 +12,16 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === "android" ? 50 : 0,
     },
     HomeButtons: {
-        borderWidth: 1,
-        paddingHorizontal: 8,
-        paddingVertical: 6,
-        borderRadius: 4,
-        alignSelf: "flex-start",
-        marginHorizontal: "1%",
-        marginBottom: 6,
-        minWidth: "23%",
+        marginRight: 10,
+        width: "20%",
+        height: "75%",
     },
-    ButtonText: {
-        color: "red",
-        fontSize: 24,
-        textAlign: "center",
-        textAlignVertical: "center",
-        padding: 0,
+    ImageFormat: {
+        width: "100%",
+        height: "100%",
     },
     TextInput: {
         width: "100%",
-        marginBottom: 10,
         paddingRight: 10,
         paddingLeft: 10,
         color: "black",
@@ -41,6 +29,11 @@ const styles = StyleSheet.create({
         textAlign: "right",
         borderBottomWidth: 1,
         borderBottomColor: "black",
+    },
+    row: {
+        flexDirection: "row",
+        flex: 1,
+        justifyContent: "flex-end",
     },
 });
 
@@ -50,7 +43,6 @@ const HomeScreen = () => {
 
     const calculate = (str) => {
         try {
-            //let newStr = str.replace("π", "PI");
             const Parser = require("expr-eval").Parser;
             const parser = new Parser();
             parser.consts.π = Math.PI;
@@ -61,8 +53,7 @@ const HomeScreen = () => {
             let result = parser.parse(str).evaluate();
             setDisplay(`${parseFloat(result.toFixed(7))}`);
         } catch (ex) {
-            console.log(ex);
-            //TODO: display something to the user that says the format is bad
+            Alert.alert("Invalid format");
         }
     };
 
@@ -80,9 +71,10 @@ const HomeScreen = () => {
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
             <TextInput style={styles.TextInput} onChangeText={setDisplay} value={display} editable={false} />
-            <View style={{ flexDirection: "row", flex: 1, flexWrap: "wrap" }}>
+            <View style={{ height: "20%" }}></View>
+            <View style={styles.row}>
                 <TouchableOpacity onPress={backSpace} style={styles.HomeButtons} disabled={false}>
-                    <Text style={styles.ButtonText}>X</Text>
+                    <Image style={styles.ImageFormat} resizeMode={"contain"} source={require("../assets/backspace.png")}></Image>
                 </TouchableOpacity>
             </View>
             <View style={{ height: "65%" }}>

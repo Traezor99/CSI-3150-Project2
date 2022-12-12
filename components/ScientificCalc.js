@@ -1,5 +1,4 @@
 import { StyleSheet, View } from "react-native";
-import React, { useState } from "react";
 import CalcButton from "./CalcButton";
 import EqualButton from "./CalcButton";
 
