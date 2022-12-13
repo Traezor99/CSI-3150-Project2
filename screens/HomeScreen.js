@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View, Image, SafeAreaView, Alert, TextInput } from "react-native";
+import { StyleSheet, Dimensions, TouchableOpacity, View, Image, SafeAreaView, Alert, TextInput } from "react-native";
 import React from "react";
 import MainCalc from "../components/MainCalc";
 import ScientificCalc from "../components/ScientificCalc";
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     },
     TextInput: {
         width: "100%",
+        height: 48,
         paddingRight: 10,
         paddingLeft: 10,
         color: "black",
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
 const HomeScreen = () => {
     const Tab = createMaterialTopTabNavigator();
     const [display, setDisplay] = React.useState("0"); //Also store the previous result
+    const [fontSize, setFontSize] = React.useState(48);
 
     const calculate = (str) => {
         try {
@@ -51,7 +53,16 @@ const HomeScreen = () => {
                 return x * (Math.PI / 180);
             };
             let result = parser.parse(str).evaluate();
-            setDisplay(`${parseFloat(result.toFixed(7))}`);
+            let output = `${result}`;
+            if (output.includes("e+") || output.includes("e-")) {
+                output = `${parseFloat(result.toPrecision(8))}`;
+            } else {
+                output = `${parseFloat(result.toFixed(7))}`;
+            }
+
+            setDisplay(output);
+            if (output.length > 12) setFontSize(40);
+            else setFontSize(48);
         } catch (ex) {
             Alert.alert("Invalid format");
         }
@@ -60,17 +71,29 @@ const HomeScreen = () => {
     const backSpace = () => {
         if (display.length > 1) setDisplay(display.substring(0, display.length - 1));
         else setDisplay("0");
+
+        if (display.length > 13) setFontSize(40);
+        else setFontSize(48);
     };
 
     const updateDisplay = (value) => {
-        if (value == "clear") setDisplay("0");
-        else if (display == "0") setDisplay(value);
-        else setDisplay(display + value);
+        if (value == "clear") {
+            setDisplay("0");
+            setFontSize(48);
+        } else if (display == "0") {
+            setDisplay(value);
+            setFontSize(48);
+        } else {
+            setDisplay(display + value);
+
+            if (display.length > 11) setFontSize(40);
+            else setFontSize(48);
+        }
     };
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
-            <TextInput style={styles.TextInput} onChangeText={setDisplay} value={display} editable={false} />
+            <TextInput style={[styles.TextInput, { fontSize: fontSize }]} onChangeText={updateDisplay} value={display} editable={false} />
             <View style={{ height: "20%" }}></View>
             <View style={styles.row}>
                 <TouchableOpacity onPress={backSpace} style={styles.HomeButtons} disabled={false}>
