@@ -54,11 +54,7 @@ const HomeScreen = () => {
             };
             let result = parser.parse(str).evaluate();
             let output = `${result}`;
-            if (output.includes("e+") || output.includes("e-")) {
-                output = `${parseFloat(result.toPrecision(8))}`;
-            } else {
-                output = `${parseFloat(result.toFixed(7))}`;
-            }
+            output = `${parseFloat(result.toFixed(7))}`;
 
             setDisplay(output);
             if (output.length > 12) setFontSize(40);
